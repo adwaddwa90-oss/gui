@@ -1,7 +1,6 @@
 --[[
     PotassiumGUI - Custom Drawing GUI Library
-    Built for Potassium Executor API
-    Peak Performance | Clean-Slate Implementation
+    Cuteware Style - Oldschool CBRO Vibe
 ]]
 
 local PotassiumGUI = {}
@@ -11,19 +10,22 @@ local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
--- Config
+-- Config (Cuteware / CBRO Style)
 local Config = {
     Font = 2, -- Plex
     FontSize = 13,
-    TitleSize = 16,
-    AccentColor = Color3.fromRGB(138, 43, 226),
-    Background = Color3.fromRGB(20, 20, 20),
-    Secondary = Color3.fromRGB(30, 30, 30),
-    Tertiary = Color3.fromRGB(40, 40, 40),
-    Border = Color3.fromRGB(55, 55, 55),
+    TitleSize = 14,
+    AccentColor = Color3.fromRGB(255, 128, 170), -- Soft pink
+    AccentAlt = Color3.fromRGB(255, 182, 193), -- Light pink
+    Background = Color3.fromRGB(25, 25, 30), -- Dark blue-ish
+    Secondary = Color3.fromRGB(35, 35, 42), -- Slightly lighter
+    Tertiary = Color3.fromRGB(45, 45, 55), -- Element bg
+    Border = Color3.fromRGB(255, 128, 170), -- Pink border
     Text = Color3.fromRGB(255, 255, 255),
-    SubText = Color3.fromRGB(175, 175, 175),
-    Disabled = Color3.fromRGB(100, 100, 100),
+    SubText = Color3.fromRGB(200, 200, 210),
+    Disabled = Color3.fromRGB(80, 80, 90),
+    ToggleOn = Color3.fromRGB(255, 128, 170), -- Pink when on
+    ToggleOff = Color3.fromRGB(60, 60, 70), -- Dark when off
 }
 
 -- Globals
@@ -118,7 +120,7 @@ function PotassiumGUI:CreateWindow(options)
     -- Title Bar
     self.Objects.TitleBar = Create("Square", {
         Position = self.Position,
-        Size = Vector2.new(self.Size.X, 32),
+        Size = Vector2.new(self.Size.X, 28),
         Color = Config.Secondary,
         Filled = true,
         Visible = true,
@@ -135,41 +137,41 @@ function PotassiumGUI:CreateWindow(options)
     })
     
     self.Objects.TitleText = Create("Text", {
-        Position = self.Position + Vector2.new(12, 8),
+        Position = self.Position + Vector2.new(10, 6),
         Text = self.Title,
         Size = Config.TitleSize,
         Font = Config.Font,
-        Color = Config.Text,
+        Color = Config.AccentColor, -- Pink title
         Visible = true,
         ZIndex = self.BaseZ + 4,
     })
     
     -- Close Button
     self.Objects.CloseBtn = Create("Text", {
-        Position = self.Position + Vector2.new(self.Size.X - 22, 8),
-        Text = "X",
+        Position = self.Position + Vector2.new(self.Size.X - 18, 6),
+        Text = "x",
         Size = Config.TitleSize,
         Font = Config.Font,
-        Color = Config.SubText,
+        Color = Config.AccentColor,
         Visible = true,
         ZIndex = self.BaseZ + 4,
     })
     
     -- Minimize Button
     self.Objects.MinBtn = Create("Text", {
-        Position = self.Position + Vector2.new(self.Size.X - 44, 8),
+        Position = self.Position + Vector2.new(self.Size.X - 36, 6),
         Text = "-",
         Size = Config.TitleSize,
         Font = Config.Font,
-        Color = Config.SubText,
+        Color = Config.AccentColor,
         Visible = true,
         ZIndex = self.BaseZ + 4,
     })
     
     -- Tab Container
     self.Objects.TabContainer = Create("Square", {
-        Position = self.Position + Vector2.new(0, 32),
-        Size = Vector2.new(130, self.Size.Y - 32),
+        Position = self.Position + Vector2.new(0, 28),
+        Size = Vector2.new(110, self.Size.Y - 28),
         Color = Config.Secondary,
         Filled = true,
         Visible = true,
@@ -177,17 +179,17 @@ function PotassiumGUI:CreateWindow(options)
     })
     
     self.Objects.TabDivider = Create("Line", {
-        From = self.Position + Vector2.new(130, 32),
-        To = self.Position + Vector2.new(130, self.Size.Y),
-        Color = Config.Border,
+        From = self.Position + Vector2.new(110, 28),
+        To = self.Position + Vector2.new(110, self.Size.Y),
+        Color = Config.AccentColor,
         Thickness = 1,
         Visible = true,
         ZIndex = self.BaseZ + 3,
     })
     
     -- Content Area
-    self.ContentPosition = self.Position + Vector2.new(140, 42)
-    self.ContentSize = Vector2.new(self.Size.X - 150, self.Size.Y - 52)
+    self.ContentPosition = self.Position + Vector2.new(118, 36)
+    self.ContentSize = Vector2.new(self.Size.X - 126, self.Size.Y - 44)
     
     table.insert(Windows, self)
     self:SetupInputs()
@@ -246,14 +248,14 @@ function Window:SetPosition(pos)
     self.Objects.Border.Position = pos
     self.Objects.TitleBar.Position = pos
     self.Objects.TitleAccent.Position = pos
-    self.Objects.TitleText.Position = pos + Vector2.new(12, 8)
-    self.Objects.CloseBtn.Position = pos + Vector2.new(self.Size.X - 22, 8)
-    self.Objects.MinBtn.Position = pos + Vector2.new(self.Size.X - 44, 8)
-    self.Objects.TabContainer.Position = pos + Vector2.new(0, 32)
-    self.Objects.TabDivider.From = pos + Vector2.new(130, 32)
-    self.Objects.TabDivider.To = pos + Vector2.new(130, self.Size.Y)
+    self.Objects.TitleText.Position = pos + Vector2.new(10, 6)
+    self.Objects.CloseBtn.Position = pos + Vector2.new(self.Size.X - 18, 6)
+    self.Objects.MinBtn.Position = pos + Vector2.new(self.Size.X - 36, 6)
+    self.Objects.TabContainer.Position = pos + Vector2.new(0, 28)
+    self.Objects.TabDivider.From = pos + Vector2.new(110, 28)
+    self.Objects.TabDivider.To = pos + Vector2.new(110, self.Size.Y)
     
-    self.ContentPosition = pos + Vector2.new(140, 42)
+    self.ContentPosition = pos + Vector2.new(118, 36)
     
     -- Update tabs
     for i, tab in ipairs(self.Tabs) do
@@ -318,11 +320,11 @@ function Window:CreateTab(name)
     tab.ContentHeight = 0
     tab.Index = #self.Tabs + 1
     
-    local yPos = self.Position.Y + 40 + ((tab.Index - 1) * 32)
+    local yPos = self.Position.Y + 34 + ((tab.Index - 1) * 26)
     
     tab.Objects.Button = Create("Square", {
-        Position = Vector2.new(self.Position.X + 5, yPos),
-        Size = Vector2.new(120, 28),
+        Position = Vector2.new(self.Position.X + 4, yPos),
+        Size = Vector2.new(102, 22),
         Color = Config.Tertiary,
         Filled = true,
         Visible = true,
@@ -330,7 +332,7 @@ function Window:CreateTab(name)
     })
     
     tab.Objects.ButtonText = Create("Text", {
-        Position = Vector2.new(self.Position.X + 15, yPos + 6),
+        Position = Vector2.new(self.Position.X + 10, yPos + 4),
         Text = tab.Name,
         Size = Config.FontSize,
         Font = Config.Font,
@@ -371,9 +373,9 @@ function Window:SelectTab(tab)
 end
 
 function Tab:UpdatePosition(windowPos, index)
-    local yPos = windowPos.Y + 40 + ((index - 1) * 32)
-    self.Objects.Button.Position = Vector2.new(windowPos.X + 5, yPos)
-    self.Objects.ButtonText.Position = Vector2.new(windowPos.X + 15, yPos + 6)
+    local yPos = windowPos.Y + 34 + ((index - 1) * 26)
+    self.Objects.Button.Position = Vector2.new(windowPos.X + 4, yPos)
+    self.Objects.ButtonText.Position = Vector2.new(windowPos.X + 10, yPos + 4)
     
     for _, element in ipairs(self.Elements) do
         element:UpdatePosition()
@@ -538,7 +540,7 @@ function Tab:CreateToggle(text, default, callback)
     
     elem.Objects.Background = Create("Square", {
         Position = pos,
-        Size = Vector2.new(self.Window.ContentSize.X, 30),
+        Size = Vector2.new(self.Window.ContentSize.X, 28),
         Color = Config.Tertiary,
         Filled = true,
         Visible = self.Window.ActiveTab == self,
@@ -546,7 +548,7 @@ function Tab:CreateToggle(text, default, callback)
     })
     
     elem.Objects.Text = Create("Text", {
-        Position = pos + Vector2.new(10, 7),
+        Position = pos + Vector2.new(10, 6),
         Text = elem.Text,
         Size = Config.FontSize,
         Font = Config.Font,
@@ -555,32 +557,28 @@ function Tab:CreateToggle(text, default, callback)
         ZIndex = self.Window.BaseZ + 12,
     })
     
-    elem.Objects.ToggleOuter = Create("Square", {
-        Position = pos + Vector2.new(self.Window.ContentSize.X - 50, 5),
-        Size = Vector2.new(40, 20),
-        Color = Config.Border,
-        Filled = false,
-        Thickness = 1,
-        Visible = self.Window.ActiveTab == self,
-        ZIndex = self.Window.BaseZ + 11,
-    })
-    
-    elem.Objects.ToggleInner = Create("Square", {
-        Position = pos + Vector2.new(self.Window.ContentSize.X - 48, 7),
+    -- Cuteware style: simple box indicator
+    elem.Objects.ToggleBox = Create("Square", {
+        Position = pos + Vector2.new(self.Window.ContentSize.X - 28, 6),
         Size = Vector2.new(16, 16),
-        Color = elem.Value and Config.AccentColor or Config.Disabled,
+        Color = elem.Value and Config.ToggleOn or Config.ToggleOff,
         Filled = true,
         Visible = self.Window.ActiveTab == self,
         ZIndex = self.Window.BaseZ + 12,
     })
     
+    elem.Objects.ToggleBorder = Create("Square", {
+        Position = pos + Vector2.new(self.Window.ContentSize.X - 28, 6),
+        Size = Vector2.new(16, 16),
+        Color = Config.AccentColor,
+        Filled = false,
+        Thickness = 1,
+        Visible = self.Window.ActiveTab == self,
+        ZIndex = self.Window.BaseZ + 13,
+    })
+    
     local function UpdateToggle()
-        elem.Objects.ToggleInner.Color = elem.Value and Config.AccentColor or Config.Disabled
-        local baseX = elem.Objects.ToggleOuter.Position.X + 2
-        elem.Objects.ToggleInner.Position = Vector2.new(
-            elem.Value and baseX + 20 or baseX,
-            elem.Objects.ToggleInner.Position.Y
-        )
+        elem.Objects.ToggleBox.Color = elem.Value and Config.ToggleOn or Config.ToggleOff
     end
     
     local clickConn = UserInputService.InputBegan:Connect(function(input)
@@ -609,18 +607,16 @@ function Tab:CreateToggle(text, default, callback)
         local y = self.Tab.Window.ContentPosition.Y + self.YOffset - self.Tab.ScrollOffset
         local pos = Vector2.new(self.Tab.Window.ContentPosition.X, y)
         self.Objects.Background.Position = pos
-        self.Objects.Text.Position = pos + Vector2.new(10, 7)
-        self.Objects.ToggleOuter.Position = pos + Vector2.new(self.Tab.Window.ContentSize.X - 50, 5)
-        self.Objects.ToggleInner.Position = pos + Vector2.new(
-            self.Tab.Window.ContentSize.X - 48 + (self.Value and 20 or 0), 7
-        )
+        self.Objects.Text.Position = pos + Vector2.new(10, 6)
+        self.Objects.ToggleBox.Position = pos + Vector2.new(self.Tab.Window.ContentSize.X - 28, 6)
+        self.Objects.ToggleBorder.Position = pos + Vector2.new(self.Tab.Window.ContentSize.X - 28, 6)
     end
     
     elem.Destroy = function(self)
         DestroyObjects(self.Objects)
     end
     
-    self:AddHeight(30)
+    self:AddHeight(28)
     table.insert(self.Elements, elem)
     return elem
 end
